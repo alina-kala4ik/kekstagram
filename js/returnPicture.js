@@ -74,10 +74,7 @@
     document.body.classList.add('modal-open');
     bigPicture.classList.remove('hidden');
 
-    let shownComments = item.comments.slice(0, numberDisplayedComments);
-
     returnBigImg(item);
-    returnCommentsInBigImg(shownComments);
 
     if (item.comments.length <= numberDisplayedComments) {
       commentsLoader.classList.add('hidden');
@@ -90,24 +87,21 @@
       window.util.isEscEvent(evt, closeBigImg);
     })
 
-    let count = numberDisplayedComments;
+    let count = 0;
     function showNewComments() {
-      shownComments = item.comments.slice(count, count + numberDisplayedComments);
+      let shownComments = item.comments.slice(count, count + numberDisplayedComments);
       returnCommentsInBigImg(shownComments);
 
       if (item.comments.length > count + numberDisplayedComments) {
-        count += numberDisplayedComments;
         commentsLoader.addEventListener('click', function() {
-          showNewComments(count, count + numberDisplayedComments);
+          count += numberDisplayedComments;
+          showNewComments();
         }, {once: true});
       } else {
         commentsLoader.classList.add('hidden');
       }
     };
-
-    commentsLoader.addEventListener('click', function() {
-      showNewComments();
-    }, {once: true})
+    showNewComments();
   };
 
 

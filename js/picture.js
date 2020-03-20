@@ -23,7 +23,7 @@
 
   function copyData(backendDate) {
     arrayPicture = backendDate;
-    returnPicture(arrayPicture);
+    returnPictures(arrayPicture);
   }
 
 
@@ -105,7 +105,7 @@
   };
 
 
-  function returnPicture(arrayData) {
+  function returnPictures(arrayData) {
     arrayData.forEach(item => {
       let picture = pictureTemplate.cloneNode(true);
       picture.querySelector('.picture__img').setAttribute('src', item.url);

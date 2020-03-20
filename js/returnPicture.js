@@ -3,6 +3,7 @@
 (function () {
 
   const ENTER_KEY = 'Enter';
+  const numberDisplayedComments = 5;
 
   let pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   let picturesFragment = document.createDocumentFragment();
@@ -16,6 +17,7 @@
   let bigPictureSocialComments = bigPicture.querySelector('.social__comments');
   let commentsFragment = document.createDocumentFragment();
   let buttonClose = bigPicture.querySelector('.big-picture__cancel');
+  let commentsLoader = bigPicture.querySelector('.comments-loader');
 
   let arrayPicture;
 
@@ -36,11 +38,11 @@
   };
 
 
-  function returnCommentsInBigImg(item) {
+  function returnCommentsInBigImg(arrayComments) {
 
     bigPictureSocialComments.innerHTML = '';
 
-    item.comments.forEach( (element, i) => {
+    arrayComments.forEach( (element, i) => {
       let comment = document.createElement('li');
       comment.classList.add('social__comment');
 
@@ -72,13 +74,40 @@
     document.body.classList.add('modal-open');
     bigPicture.classList.remove('hidden');
 
+    let shownComments = item.comments.slice(0, numberDisplayedComments);
+
     returnBigImg(item);
-    returnCommentsInBigImg(item);
+    returnCommentsInBigImg(shownComments);
+
+    if (item.comments.length <= numberDisplayedComments) {
+      commentsLoader.classList.add('hidden');
+    } else {
+      commentsLoader.classList.remove('hidden');
+    }
 
     buttonClose.addEventListener('click', closeBigImg);
     document.body.addEventListener('keydown', function(evt) {
       window.util.isEscEvent(evt, closeBigImg);
     })
+
+    let count = numberDisplayedComments;
+    function showNewComments() {
+      shownComments = item.comments.slice(count, count + numberDisplayedComments);
+      returnCommentsInBigImg(shownComments);
+
+      if (item.comments.length > count + numberDisplayedComments) {
+        count += numberDisplayedComments;
+        commentsLoader.addEventListener('click', function() {
+          showNewComments(count, count + numberDisplayedComments);
+        }, {once: true});
+      } else {
+        commentsLoader.classList.add('hidden');
+      }
+    };
+
+    commentsLoader.addEventListener('click', function() {
+      showNewComments();
+    }, {once: true})
   };
 
 

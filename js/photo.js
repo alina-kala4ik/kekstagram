@@ -5,8 +5,9 @@
   const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
   let uploadFile = document.querySelector('#upload-file');
-  let imageEditor = document.querySelector('.img-upload__overlay');
-  let photo = imageEditor.querySelector('.img-upload__preview img');
+  let editor = document.querySelector('.img-upload__overlay');
+  let photo = editor.querySelector('.img-upload__preview img');
+  let buttonCloseEditor = editor.querySelector('#upload-cancel');
 
   function pullPhoto(fileChooser, preview) {
     let file = fileChooser.files[0];
@@ -25,8 +26,22 @@
     }
   };
 
-  uploadFile.addEventListener('change', () => {
+  function closeEditor() {
+    editor.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+  };
+
+
+  function openEditor() {
     pullPhoto(uploadFile, photo);
-    imageEditor.classList.remove('hidden');
-  })
+    editor.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+
+    buttonCloseEditor.addEventListener('click', closeEditor);
+    document.body.addEventListener('keydown', evt => {
+      window.util.isEscEvent(evt, closeEditor);
+    })
+  };
+
+  uploadFile.addEventListener('change', openEditor);
 })();

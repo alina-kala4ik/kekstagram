@@ -11,6 +11,8 @@
   let controlSmaller = editor.querySelector('.scale__control--smaller');
   let controlBigger = editor.querySelector('.scale__control--bigger');
   let controlValue = editor.querySelector('.scale__control--value');
+  let battonsEffects = editor.querySelectorAll('.effects__radio');
+  let effectLevelWrapper = document.querySelector('.effect-level');
 
   function pullPhoto(fileChooser, preview) {
     let file = fileChooser.files[0];
@@ -47,23 +49,18 @@
   };
 
 
-  // function imageResize(way) {
-  //   let valueNow = parseInt(controlValue.getAttribute('value'));
-  //   let newValue = valueNow;
-  //   if (valueNow === 25 || valueNow === 100) {
-  //     return false;
-  //   } else {
-  //     newValue = (way === 'decrease') ? (valueNow - 25) : (valueNow + 25)
-  //   }
-  //   if (way === 'decrease') {
-  //     valueNow === 25 ? false : newValue = valueNow - 25;
-  //   } else {
-  //     valueNow === 100 ? false : newValue = valueNow + 25;
-  //   }
-  //   controlValue.setAttribute('value', (newValue + '%'));
-  //   photo.style.transform = `scale(${newValue / 100})`;
-  //   console.log(newValue)
-  // };
+  function filterApplication(evt) {
+    let classNow = photo.classList;
+    if (classNow) {
+      photo.classList.remove(classNow[0]);
+    }
+    photo.classList.add('effects__preview--' + evt.target.value);
+    if (evt.target.value === 'none') {
+      effectLevelWrapper.style.display = 'none';
+    } else {
+      effectLevelWrapper.style.display = 'block';
+    }
+  };
 
 
   function openEditor() {
@@ -83,6 +80,14 @@
       imageResize('increase');
     });
   };
+
+  battonsEffects.forEach(item => {
+    item.addEventListener('click', evt => {
+      filterApplication(evt);
+    });
+  });
+
+  effectLevelWrapper.style.display = 'none';
 
   uploadFile.addEventListener('change', openEditor);
 })();

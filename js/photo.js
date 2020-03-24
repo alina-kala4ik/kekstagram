@@ -18,6 +18,8 @@
   let effectLevelPin = editor.querySelector('.effect-level__pin');
   let inputEffectLevelValue = editor.querySelector('.effect-level__value');
   let effectLevelDepth = editor.querySelector('.effect-level__depth');
+  let textHashtags = editor.querySelector('.text__hashtags');
+  let textDescription = editor.querySelector('.text__description');
 
   let activeFilter;
 
@@ -144,13 +146,18 @@
   };
 
 
-  function closeEditor() {
-    editor.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    uploadFile.addEventListener('change', openEditor, {once: true});
-    controlValue.setAttribute('value', '100%');
-    photo.style.transform = 'none';
-    resetFilter();
+  function closeEditor(evt) {
+    if (evt.target === textHashtags || evt.target === textDescription) {
+      return false;
+    } else {
+      editor.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      uploadFile.addEventListener('change', openEditor, {once: true});
+      controlValue.setAttribute('value', '100%');
+      photo.style.transform = 'none';
+      photo.setAttribute('src', '');
+      resetFilter();
+    }
   };
 
 
@@ -163,7 +170,9 @@
 
     buttonCloseEditor.addEventListener('click', closeEditor);
     document.body.addEventListener('keydown', evt => {
-      window.util.isEscEvent(evt, closeEditor);
+      if (evt.key === 'Escape') {
+        closeEditor(evt);
+      }
     })
 
     controlSmaller.addEventListener('click', () => {

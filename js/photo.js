@@ -155,11 +155,9 @@
       uploadFile.addEventListener('change', openEditor, {once: true});
       controlValue.setAttribute('value', '100%');
       photo.style.transform = 'none';
-      photo.setAttribute('src', '');
       resetFilter();
     }
   };
-
 
   function openEditor() {
     effectLevelWrapper.style.display = 'none';
@@ -192,5 +190,8 @@
 
   uploadFile.addEventListener('change', openEditor, {once: true});
 
+  window.photo = {
+    closeEditor: closeEditor
+  }
 
 })();

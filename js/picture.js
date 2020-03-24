@@ -67,6 +67,7 @@
   function closeBigImg() {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
+    bigPictureImg.setAttribute('src', '');
   };
 
 
@@ -84,7 +85,9 @@
 
     buttonClose.addEventListener('click', closeBigImg);
     document.body.addEventListener('keydown', function(evt) {
-      window.util.isEscEvent(evt, closeBigImg);
+      if (evt.key === 'Enter') {
+        closeBigImg();
+      }
     })
 
     let count = 0;

@@ -4,9 +4,13 @@
 
   let form = document.querySelector('.img-upload__form');
   let textHashtags = document.querySelector('.text__hashtags');
+  let sussesTemplate = document.querySelector('#success').content.querySelector('.success');
+  let errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  let main = document.querySelector('main');
+  let uploadFile = document.querySelector('#upload-file');
 
   let regHashtags = /#[а-яА-ЯёЁa-zA-Z0-9]+$/;
-  let arrHashtags;
+  let arrHashtags = [];
 
   function hashtagsStartValidation(arrHashtags) {
     return arrHashtags.every(item => item.startsWith('#'));
@@ -46,10 +50,66 @@
   };
 
 
+  function closeSend(template) {
+    template.parentNode.removeChild(template);
+  };
+
+
+  function sussesSend() {
+    uploadFile.value = '';
+    main.appendChild(sussesTemplate);
+
+    function bodyKeydownCloseSussesSendHandler(evt) {
+      if (evt.key === 'Escape') {
+        closeSend(sussesTemplate);
+      }
+      document.body.removeEventListener('click', bodyClickCloseSussesSendHandler);
+      document.body.removeEventListener('keydown', bodyKeydownCloseSussesSendHandler);
+    };
+
+    function bodyClickCloseSussesSendHandler() {
+      closeSend(sussesTemplate);
+      document.body.removeEventListener('click', bodyClickCloseSussesSendHandler);
+      document.body.removeEventListener('keydown', bodyKeydownCloseSussesSendHandler);
+    };
+
+    document.body.addEventListener('keydown', bodyKeydownCloseSussesSendHandler);
+    document.body.addEventListener('click', bodyClickCloseSussesSendHandler);
+  };
+
+
+  function errorSend() {
+    uploadFile.value = '';
+    main.appendChild(errorTemplate);
+
+    function bodyKeydownCloseErrorSendHandler(evt) {
+      if (evt.key === 'Escape') {
+        closeSend(errorTemplate);
+      }
+      document.body.removeEventListener('click', bodyClickCloseErrorSendHandler);
+      document.body.removeEventListener('keydown', bodyKeydownCloseErrorSendHandler);
+    };
+
+    function bodyClickCloseErrorSendHandler() {
+      closeSend(errorTemplate);
+      document.body.removeEventListener('click', bodyClickCloseErrorSendHandler);
+      document.body.removeEventListener('keydown', bodyKeydownCloseErrorSendHandler);
+    };
+
+    document.body.addEventListener('keydown', bodyKeydownCloseErrorSendHandler);
+    document.body.addEventListener('click', bodyClickCloseErrorSendHandler);
+  };
+
+
   form.addEventListener('submit', evt => {
     evt.preventDefault();
-    hashtagsAllValidations(arrHashtags);
+    if (arrHashtags.length > 0) {
+      hashtagsAllValidations(arrHashtags);
+    }
+    window.photo.closeEditor(evt);
+    window.backend.send(sussesSend, errorSend, new FormData(form));
   })
+
 
   textHashtags.addEventListener('input', evt => {
     arrHashtags = textHashtags.value.split(' ');

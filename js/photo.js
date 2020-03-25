@@ -10,6 +10,7 @@
   let editor = document.querySelector('.img-upload__overlay');
   let photo = editor.querySelector('.img-upload__preview img');
   let buttonCloseEditor = editor.querySelector('#upload-cancel');
+  let controlSize = editor.querySelectorAll('.scale__control');
   let controlSmaller = editor.querySelector('.scale__control--smaller');
   let controlBigger = editor.querySelector('.scale__control--bigger');
   let controlValue = editor.querySelector('.scale__control--value');
@@ -47,19 +48,6 @@
       });
       reader.readAsDataURL(file);
     }
-  }
-
-
-  function imageResize(way) {
-    let valueNow = parseInt(controlValue.getAttribute('value'), 10);
-    if ((way === 'decrease' && valueNow <= stepResizePhoto) || (way === 'increase' && valueNow >= 100)) {
-      return false;
-    } else {
-      let newValue = (way === 'decrease') ? (valueNow - stepResizePhoto) : (valueNow + stepResizePhoto);
-      controlValue.setAttribute('value', (newValue + '%'));
-      photo.style.transform = `scale(${newValue / 100})`;
-    }
-    return true;
   }
 
 
@@ -157,37 +145,55 @@
       controlValue.setAttribute('value', '100%');
       photo.style.transform = 'none';
       resetFilter();
+
+      buttonCloseEditor.removeEventListener('click', closeEditor);
+      document.body.removeEventListener('keydown', bodyKeydownCloseEditorHandler);
+      controlSize.forEach(item => {
+        item.removeEventListener('click', imageResizeHandler);
+      });
+
+      buttonsEffects.forEach(item => {
+        item.removeEventListener('click', filterApplication);
+      });
+    }
+    return true;
+  }
+
+  function bodyKeydownCloseEditorHandler(evt) {
+    if (evt.key === 'Escape') {
+      closeEditor(evt);
+    }
+  }
+
+  function imageResizeHandler(evt) {
+    let valueNow = parseInt(controlValue.getAttribute('value'), 10);
+    if ((evt.target === controlSmaller && valueNow <= stepResizePhoto) || (evt.target === controlBigger && valueNow >= 100)) {
+      return false;
+    } else {
+      let newValue = (evt.target === controlSmaller) ? (valueNow - stepResizePhoto) : (valueNow + stepResizePhoto);
+      controlValue.setAttribute('value', (newValue + '%'));
+      photo.style.transform = `scale(${newValue / 100})`;
     }
     return true;
   }
 
   function openEditor() {
     effectLevelWrapper.style.display = 'none';
-
     pullPhoto(uploadFile, photo);
     editor.classList.remove('hidden');
     document.body.classList.add('modal-open');
 
     buttonCloseEditor.addEventListener('click', closeEditor);
-    document.body.addEventListener('keydown', evt => {
-      if (evt.key === 'Escape') {
-        closeEditor(evt);
-      }
+    document.body.addEventListener('keydown', bodyKeydownCloseEditorHandler);
+
+    controlSize.forEach(item => {
+      item.addEventListener('click', imageResizeHandler);
     });
 
-    controlSmaller.addEventListener('click', () => {
-      imageResize('decrease');
-    });
-    controlBigger.addEventListener('click', () => {
-      imageResize('increase');
+    buttonsEffects.forEach(item => {
+      item.addEventListener('click', filterApplication);
     });
   }
-
-  buttonsEffects.forEach(item => {
-    item.addEventListener('click', evt => {
-      filterApplication(evt);
-    });
-  });
 
 
   uploadFile.addEventListener('change', openEditor, {once: true});

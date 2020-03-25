@@ -2,8 +2,12 @@
 
 (function () {
 
+  let editor = document.querySelector('.img-upload__overlay');
+  let textHashtags = editor.querySelector('.text__hashtags');
+  let textDescription = editor.querySelector('.text__description');
+  let buttonCloseEditor = editor.querySelector('#upload-cancel');
+
   let form = document.querySelector('.img-upload__form');
-  let textHashtags = document.querySelector('.text__hashtags');
   let sussesTemplate = document.querySelector('#success').content.querySelector('.success');
   let errorTemplate = document.querySelector('#error').content.querySelector('.error');
   let main = document.querySelector('main');
@@ -101,19 +105,52 @@
   }
 
 
-  form.addEventListener('submit', evt => {
+  function submitFormHandler(evt) {
     evt.preventDefault();
     if (arrHashtags.length > 0) {
       hashtagsAllValidations(arrHashtags);
     }
     window.photo.closeEditor(evt);
     window.backend.send(sussesSend, errorSend, new FormData(form));
-  });
+  }
 
 
-  textHashtags.addEventListener('input', () => {
+  function inputFormHandler() {
     arrHashtags = textHashtags.value.split(' ');
     hashtagsAllValidations(arrHashtags);
-  });
+  }
+
+
+  function bodyKeydownCloseEditorHandler(evt) {
+    if (evt.key === 'Escape') {
+      closeEditor(evt);
+    }
+  }
+
+
+  function closeEditor(evt) {
+    if (evt.target === textHashtags || evt.target === textDescription) {
+      return false;
+    } else {
+      editor.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      uploadFile.addEventListener('change', openEditor, {once: true});
+      form.removeEventListener('submit', submitFormHandler);
+      textHashtags.removeEventListener('input', inputFormHandler);
+      document.body.removeEventListener('keydown', bodyKeydownCloseEditorHandler);
+    }
+    return true;
+  }
+
+
+  function openEditor() {
+    form.addEventListener('submit', submitFormHandler);
+    textHashtags.addEventListener('input', inputFormHandler);
+
+    buttonCloseEditor.addEventListener('click', closeEditor);
+    document.body.addEventListener('keydown', bodyKeydownCloseEditorHandler);
+  }
+
+  uploadFile.addEventListener('change', openEditor, {once: true});
 
 })();

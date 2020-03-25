@@ -2,7 +2,6 @@
 
 (function () {
 
-  const ENTER_KEY = 'Enter';
   const numberDisplayedComments = 5;
 
   let pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -26,7 +25,6 @@
     returnPictures(arrayPicture);
   }
 
-
   window.backend.load(copyData);
 
 
@@ -39,7 +37,6 @@
 
 
   function returnCommentsInBigImg(arrayComments) {
-
     bigPictureSocialComments.innerHTML = '';
 
     arrayComments.forEach( (element, i) => {
@@ -64,6 +61,7 @@
     bigPictureSocialComments.appendChild(commentsFragment);
   };
 
+
   function closeBigImg() {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
@@ -74,8 +72,8 @@
   function openBigImg(item) {
     document.body.classList.add('modal-open');
     bigPicture.classList.remove('hidden');
-
     returnBigImg(item);
+    buttonClose.addEventListener('click', closeBigImg);
 
     if (item.comments.length <= numberDisplayedComments) {
       commentsLoader.classList.add('hidden');
@@ -83,12 +81,12 @@
       commentsLoader.classList.remove('hidden');
     }
 
-    buttonClose.addEventListener('click', closeBigImg);
     document.body.addEventListener('keydown', function(evt) {
       if (evt.key === 'Enter') {
         closeBigImg();
       }
     })
+
 
     let count = 0;
     function showNewComments() {
@@ -120,7 +118,7 @@
       });
 
       picture.addEventListener('keydown', function(evt){
-        if (evt.key === ENTER_KEY) {
+        if (evt.key === 'Enter') {
           openBigImg(item);
         }
       });

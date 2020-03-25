@@ -111,7 +111,7 @@
   })
 
 
-  textHashtags.addEventListener('input', evt => {
+  textHashtags.addEventListener('input', () => {
     arrHashtags = textHashtags.value.split(' ');
     hashtagsAllValidations(arrHashtags);
   })

@@ -18,15 +18,6 @@
   let buttonClose = bigPicture.querySelector('.big-picture__cancel');
   let commentsLoader = bigPicture.querySelector('.comments-loader');
 
-  let arrayPicture;
-
-  function copyData(backendDate) {
-    arrayPicture = backendDate;
-    returnPictures(arrayPicture);
-  }
-
-  window.backend.load(copyData);
-
 
   function returnBigImg(item) {
     bigPictureImg.setAttribute('src', item.url);
@@ -127,5 +118,9 @@
     })
     picturesWrapper.appendChild(picturesFragment);
   };
+
+  window.picture = {
+    return: returnPictures
+  }
 
 })();

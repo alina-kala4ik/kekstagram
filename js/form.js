@@ -55,7 +55,6 @@
 
 
   function showSend(template) {
-    uploadFile.value = '';
     main.appendChild(template);
 
     function bodyKeydownHandler(evt) {
@@ -94,8 +93,8 @@
     if (arrHashtags.length > 0) {
       hashtagsAllValidations(arrHashtags);
     }
-    window.photo.closeEditor(evt);
     window.backend.send(sussesSend, errorSend, new FormData(form));
+    window.photo.closeEditor(evt);
   }
 
 

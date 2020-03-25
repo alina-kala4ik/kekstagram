@@ -144,6 +144,7 @@
       uploadFile.addEventListener('change', openEditor, {once: true});
       controlValue.setAttribute('value', '100%');
       photo.style.transform = 'none';
+      uploadFile.value = '';
       resetFilter();
 
       buttonCloseEditor.removeEventListener('click', closeEditor);

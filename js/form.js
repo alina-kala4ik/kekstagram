@@ -95,6 +95,7 @@
     }
     window.backend.send(sussesSend, errorSend, new FormData(form));
     window.photo.closeEditor(evt);
+    closeEditor();
   }
 
 
@@ -115,8 +116,6 @@
     if (evt.target === textHashtags || evt.target === textDescription) {
       return false;
     } else {
-      editor.classList.add('hidden');
-      document.body.classList.remove('modal-open');
       uploadFile.addEventListener('change', openEditor, {once: true});
       form.removeEventListener('submit', submitFormHandler);
       textHashtags.removeEventListener('input', inputFormHandler);

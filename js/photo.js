@@ -21,6 +21,7 @@
   let effectLevelDepth = editor.querySelector('.effect-level__depth');
   let textHashtags = editor.querySelector('.text__hashtags');
   let textDescription = editor.querySelector('.text__description');
+  let form = document.querySelector('.img-upload__form');
 
   let activeFilter;
 
@@ -146,6 +147,7 @@
       photo.style.transform = 'none';
       uploadFile.value = '';
       resetFilter();
+      form.reset();
 
       buttonCloseEditor.removeEventListener('click', closeEditor);
       document.body.removeEventListener('keydown', bodyKeydownCloseEditorHandler);

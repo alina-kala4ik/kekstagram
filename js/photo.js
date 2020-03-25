@@ -73,7 +73,7 @@
     }
     photo.style.filter = `${listFilters[activeFilter]}(${intensityFilter})`;
     inputEffectLevelValue.setAttribute('value', filterValue);
-    effectLevelDepth.style.width = `${intensityFilter * 100}%`;
+    effectLevelDepth.style.width = `${(coordPin / widthFilterLine).toFixed(1) * 100}%`;
   }
 
 

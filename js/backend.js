@@ -34,7 +34,7 @@
       }
     });
 
-    xhr.addEventListener('error', function () {
+    xhr.addEventListener('error', () => {
       onError();
     });
 

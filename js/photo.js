@@ -43,7 +43,7 @@
 
     if (validPhoto) {
       var reader = new FileReader();
-      reader.addEventListener('load', function () {
+      reader.addEventListener('load', () => {
         preview.src = reader.result;
       });
       reader.readAsDataURL(file);

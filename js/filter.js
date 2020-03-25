@@ -26,9 +26,7 @@
     buttonsFilters.forEach(item => item.classList.remove('img-filters__button--active'));
     evt.target.classList.add('img-filters__button--active');
     let oldPictures = document.querySelectorAll('.picture');
-    oldPictures.forEach(item => {
-      item.parentNode.removeChild(item);
-    });
+    oldPictures.forEach(item => item.parentNode.removeChild(item));
 
     let filteredArray;
     let copyArray = array.map(item => item);

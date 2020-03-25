@@ -54,54 +54,38 @@
   }
 
 
-  function closeSend(template) {
-    template.parentNode.removeChild(template);
+  function showSend(template) {
+    uploadFile.value = '';
+    main.appendChild(template);
+
+    function bodyKeydownHandler(evt) {
+      if (evt.key === 'Escape') {
+        template.parentNode.removeChild(template);
+      }
+      document.body.removeEventListener('click', bodyAndButtonClickHandler);
+      document.body.removeEventListener('keydown', bodyKeydownHandler);
+    }
+
+    function bodyAndButtonClickHandler(evt) {
+      if (evt.target.tagName === 'SECTION' || evt.target.tagName === 'BUTTON') {
+        template.parentNode.removeChild(template);
+        document.body.removeEventListener('click', bodyAndButtonClickHandler);
+        document.body.removeEventListener('keydown', bodyKeydownHandler);
+      }
+    }
+
+    document.body.addEventListener('keydown', bodyKeydownHandler);
+    document.body.addEventListener('click', bodyAndButtonClickHandler);
   }
 
 
   function sussesSend() {
-    uploadFile.value = '';
-    main.appendChild(sussesTemplate);
-
-    function bodyKeydownCloseSussesSendHandler(evt) {
-      if (evt.key === 'Escape') {
-        closeSend(sussesTemplate);
-      }
-      document.body.removeEventListener('click', bodyClickCloseSussesSendHandler);
-      document.body.removeEventListener('keydown', bodyKeydownCloseSussesSendHandler);
-    }
-
-    function bodyClickCloseSussesSendHandler() {
-      closeSend(sussesTemplate);
-      document.body.removeEventListener('click', bodyClickCloseSussesSendHandler);
-      document.body.removeEventListener('keydown', bodyKeydownCloseSussesSendHandler);
-    }
-
-    document.body.addEventListener('keydown', bodyKeydownCloseSussesSendHandler);
-    document.body.addEventListener('click', bodyClickCloseSussesSendHandler);
+    showSend(sussesTemplate);
   }
 
 
   function errorSend() {
-    uploadFile.value = '';
-    main.appendChild(errorTemplate);
-
-    function bodyKeydownCloseErrorSendHandler(evt) {
-      if (evt.key === 'Escape') {
-        closeSend(errorTemplate);
-      }
-      document.body.removeEventListener('click', bodyClickCloseErrorSendHandler);
-      document.body.removeEventListener('keydown', bodyKeydownCloseErrorSendHandler);
-    }
-
-    function bodyClickCloseErrorSendHandler() {
-      closeSend(errorTemplate);
-      document.body.removeEventListener('click', bodyClickCloseErrorSendHandler);
-      document.body.removeEventListener('keydown', bodyKeydownCloseErrorSendHandler);
-    }
-
-    document.body.addEventListener('keydown', bodyKeydownCloseErrorSendHandler);
-    document.body.addEventListener('click', bodyClickCloseErrorSendHandler);
+    showSend(errorTemplate);
   }
 
 

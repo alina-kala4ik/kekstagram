@@ -12,47 +12,47 @@
   let regHashtags = /#[а-яА-ЯёЁa-zA-Z0-9]+$/;
   let arrHashtags = [];
 
-  function hashtagsStartValidation(arrHashtags) {
-    return arrHashtags.every(item => item.startsWith('#'));
-  };
-
-
-  function hashtagsLetterValidation(arrHashtags) {
-    return arrHashtags.every(item => regHashtags.test(item));
+  function hashtagsStartValidation(array) {
+    return array.every(item => item.startsWith('#'));
   }
 
 
-  function hashtagsLengthValidation(arrHashtags) {
-    return arrHashtags.every(item => item.length <= 20);
+  function hashtagsLetterValidation(array) {
+    return array.every(item => regHashtags.test(item));
   }
 
 
-  function hashtagsRepeatValidation(arrHashtags) {
-    let copy = arrHashtags.map(item => item.toLowerCase())
-    return copy.some( (item, i) => copy.includes(item, i+1) );
-  };
+  function hashtagsLengthValidation(array) {
+    return array.every(item => item.length <= 20);
+  }
 
 
-  function hashtagsAllValidations(arrHashtags) {
-    if ( !hashtagsStartValidation(arrHashtags)) {
+  function hashtagsRepeatValidation(array) {
+    let copy = array.map(item => item.toLowerCase());
+    return copy.some((item, i) => copy.includes(item, i + 1));
+  }
+
+
+  function hashtagsAllValidations(array) {
+    if (!hashtagsStartValidation(array)) {
       textHashtags.setCustomValidity('хэштег должен начинаться с #');
-    } else if ( !hashtagsLetterValidation(arrHashtags)) {
+    } else if (!hashtagsLetterValidation(array)) {
       textHashtags.setCustomValidity('хэштег не должен содержать спецсимволы и быть пустым');
-    } else if ( !hashtagsLengthValidation(arrHashtags)) {
+    } else if (!hashtagsLengthValidation(array)) {
       textHashtags.setCustomValidity('максимальная длина одного хэш-тега 20 символов');
-    } else if (arrHashtags.length > 5) {
+    } else if (array.length > 5) {
       textHashtags.setCustomValidity('нельзя указать больше пяти хэш-тегов');
-    } else if (hashtagsRepeatValidation(arrHashtags)) {
+    } else if (hashtagsRepeatValidation(array)) {
       textHashtags.setCustomValidity('один и тот же хэш-тег не может быть использован дважды');
     } else {
       textHashtags.setCustomValidity('');
     }
-  };
+  }
 
 
   function closeSend(template) {
     template.parentNode.removeChild(template);
-  };
+  }
 
 
   function sussesSend() {
@@ -65,17 +65,17 @@
       }
       document.body.removeEventListener('click', bodyClickCloseSussesSendHandler);
       document.body.removeEventListener('keydown', bodyKeydownCloseSussesSendHandler);
-    };
+    }
 
     function bodyClickCloseSussesSendHandler() {
       closeSend(sussesTemplate);
       document.body.removeEventListener('click', bodyClickCloseSussesSendHandler);
       document.body.removeEventListener('keydown', bodyKeydownCloseSussesSendHandler);
-    };
+    }
 
     document.body.addEventListener('keydown', bodyKeydownCloseSussesSendHandler);
     document.body.addEventListener('click', bodyClickCloseSussesSendHandler);
-  };
+  }
 
 
   function errorSend() {
@@ -88,17 +88,17 @@
       }
       document.body.removeEventListener('click', bodyClickCloseErrorSendHandler);
       document.body.removeEventListener('keydown', bodyKeydownCloseErrorSendHandler);
-    };
+    }
 
     function bodyClickCloseErrorSendHandler() {
       closeSend(errorTemplate);
       document.body.removeEventListener('click', bodyClickCloseErrorSendHandler);
       document.body.removeEventListener('keydown', bodyKeydownCloseErrorSendHandler);
-    };
+    }
 
     document.body.addEventListener('keydown', bodyKeydownCloseErrorSendHandler);
     document.body.addEventListener('click', bodyClickCloseErrorSendHandler);
-  };
+  }
 
 
   form.addEventListener('submit', evt => {
@@ -108,12 +108,12 @@
     }
     window.photo.closeEditor(evt);
     window.backend.send(sussesSend, errorSend, new FormData(form));
-  })
+  });
 
 
   textHashtags.addEventListener('input', () => {
     arrHashtags = textHashtags.value.split(' ');
     hashtagsAllValidations(arrHashtags);
-  })
+  });
 
 })();

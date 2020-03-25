@@ -24,13 +24,13 @@
     bigPictureLikes.textContent = item.likes;
     bigPictureComment.textContent = item.comments.length;
     bigPictureCaption.textContent = item.description;
-  };
+  }
 
 
   function returnCommentsInBigImg(arrayComments) {
     bigPictureSocialComments.innerHTML = '';
 
-    arrayComments.forEach( (element, i) => {
+    arrayComments.forEach(element => {
       let comment = document.createElement('li');
       comment.classList.add('social__comment');
 
@@ -48,16 +48,16 @@
 
       comment.appendChild(text);
       commentsFragment.appendChild(comment);
-    })
+    });
     bigPictureSocialComments.appendChild(commentsFragment);
-  };
+  }
 
 
   function closeBigImg() {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
     bigPictureImg.setAttribute('src', '');
-  };
+  }
 
 
   function openBigImg(item) {
@@ -72,11 +72,11 @@
       commentsLoader.classList.remove('hidden');
     }
 
-    document.body.addEventListener('keydown', function(evt) {
+    document.body.addEventListener('keydown', evt => {
       if (evt.key === 'Enter') {
         closeBigImg();
       }
-    })
+    });
 
 
     let count = 0;
@@ -85,16 +85,16 @@
       returnCommentsInBigImg(shownComments);
 
       if (item.comments.length > count + numberDisplayedComments) {
-        commentsLoader.addEventListener('click', function() {
+        commentsLoader.addEventListener('click', () => {
           count += numberDisplayedComments;
           showNewComments();
         }, {once: true});
       } else {
         commentsLoader.classList.add('hidden');
       }
-    };
+    }
     showNewComments();
-  };
+  }
 
 
   function returnPictures(arrayData) {
@@ -104,23 +104,23 @@
       picture.querySelector('.picture__likes').textContent = item.likes;
       picture.querySelector('.picture__comments').textContent = item.comments.length;
 
-      picture.addEventListener('click', function(){
+      picture.addEventListener('click', () => {
         openBigImg(item);
       });
 
-      picture.addEventListener('keydown', function(evt){
+      picture.addEventListener('keydown', evt => {
         if (evt.key === 'Enter') {
           openBigImg(item);
         }
       });
 
       picturesFragment.appendChild(picture);
-    })
+    });
     picturesWrapper.appendChild(picturesFragment);
-  };
+  }
 
   window.picture = {
     return: returnPictures
-  }
+  };
 
 })();

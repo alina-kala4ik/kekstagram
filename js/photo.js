@@ -47,19 +47,20 @@
       });
       reader.readAsDataURL(file);
     }
-  };
+  }
 
 
   function imageResize(way) {
-    let valueNow = parseInt(controlValue.getAttribute('value'));
-    if ( (way === 'decrease' && valueNow <= stepResizePhoto) || (way === 'increase' && valueNow >= 100) ) {
+    let valueNow = parseInt(controlValue.getAttribute('value'), 10);
+    if ((way === 'decrease' && valueNow <= stepResizePhoto) || (way === 'increase' && valueNow >= 100)) {
       return false;
     } else {
       let newValue = (way === 'decrease') ? (valueNow - stepResizePhoto) : (valueNow + stepResizePhoto);
       controlValue.setAttribute('value', (newValue + '%'));
       photo.style.transform = `scale(${newValue / 100})`;
     }
-  };
+    return true;
+  }
 
 
   function changesIntensityEffect(coordPin) {
@@ -85,7 +86,7 @@
     photo.style.filter = `${listFilters[activeFilter]}(${intensityFilter})`;
     inputEffectLevelValue.setAttribute('value', filterValue);
     effectLevelDepth.style.width = `${intensityFilter * 100}%`;
-  };
+  }
 
 
   function effectLevelPinMove(evt) {
@@ -96,11 +97,11 @@
     function onMouseMove(evtMove) {
       let shift = {
         x: startCoords.x - evtMove.clientX,
-      }
+      };
 
       startCoords = {
         x: evtMove.clientX,
-      }
+      };
 
       let coordsForPin = effectLevelPin.offsetLeft - shift.x;
       if (coordsForPin < 0) {
@@ -110,7 +111,7 @@
       }
       effectLevelPin.style.left = `${coordsForPin}px`;
       changesIntensityEffect(coordsForPin);
-    };
+    }
 
     function onMouseUp() {
       document.removeEventListener('mousemove', onMouseMove);
@@ -128,7 +129,7 @@
     photo.classList = '';
     photo.setAttribute('style', '');
     effectLevelWrapper.style.display = 'none';
-  };
+  }
 
 
   function filterApplication(evt) {
@@ -139,11 +140,11 @@
       photo.classList.add(`effects__preview--${activeFilter}`);
       effectLevelWrapper.style.display = 'block';
       effectLevelPin.addEventListener('mousedown', effectLevelPinMove);
-      inputEffectLevelValue.setAttribute('value', '100')
+      inputEffectLevelValue.setAttribute('value', '100');
       effectLevelDepth.style.width = '100%';
       effectLevelPin.style.left = `${widthFilterLine}px`;
     }
-  };
+  }
 
 
   function closeEditor(evt) {
@@ -157,7 +158,8 @@
       photo.style.transform = 'none';
       resetFilter();
     }
-  };
+    return true;
+  }
 
   function openEditor() {
     effectLevelWrapper.style.display = 'none';
@@ -171,7 +173,7 @@
       if (evt.key === 'Escape') {
         closeEditor(evt);
       }
-    })
+    });
 
     controlSmaller.addEventListener('click', () => {
       imageResize('decrease');
@@ -179,7 +181,7 @@
     controlBigger.addEventListener('click', () => {
       imageResize('increase');
     });
-  };
+  }
 
   buttonsEffects.forEach(item => {
     item.addEventListener('click', evt => {
@@ -192,6 +194,6 @@
 
   window.photo = {
     closeEditor: closeEditor
-  }
+  };
 
 })();

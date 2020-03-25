@@ -18,24 +18,26 @@
     arrayPicture = backendDate;
     window.picture.return(arrayPicture);
     showFilters(arrayPicture);
-  };
+  }
 
   window.backend.load(copyData);
 
-  function filtered(evt, arrayPicture) {
+  function filtered(evt, array) {
+    buttonsFilters.forEach(item => item.classList.remove('img-filters__button--active'));
+    evt.target.classList.add('img-filters__button--active');
     let oldPictures = document.querySelectorAll('.picture');
     oldPictures.forEach(item => {
       item.parentNode.removeChild(item);
-    })
+    });
 
     let filteredArray;
-    let copyArray = arrayPicture.map(item => item);
+    let copyArray = array.map(item => item);
     switch (evt.target) {
       case buttonFilterDefault:
-        filteredArray = arrayPicture;
+        filteredArray = array;
         break;
       case buttonFilterDiscussed:
-        filteredArray = copyArray.sort( (left, right) => {
+        filteredArray = copyArray.sort((left, right) => {
           return right.comments.length - left.comments.length;
         });
         break;
@@ -48,23 +50,21 @@
         break;
     }
     setTimeout(window.picture.return, DEBOUNCE_INTERVAL, filteredArray);
-  };
+  }
 
 
-  function showFilters(arrayPicture) {
+  function showFilters(array) {
     imgFilters.classList.remove('img-filters--inactive');
 
     buttonsFilters.forEach(item => {
       item.addEventListener('click', evt => {
-        buttonsFilters.forEach(item => item.classList.remove('img-filters__button--active'));
-        evt.target.classList.add('img-filters__button--active');
         if (lastTimeout) {
           window.clearTimeout(lastTimeout);
         }
-        lastTimeout = window.setTimeout(filtered, DEBOUNCE_INTERVAL, evt, arrayPicture);
+        lastTimeout = window.setTimeout(filtered, DEBOUNCE_INTERVAL, evt, array);
       });
-    })
-  };
+    });
+  }
 
   window.filter = {
     start: showFilters

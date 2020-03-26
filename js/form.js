@@ -110,7 +110,7 @@
 
   function buttonSubmitHandler() {
     arrHashtags = textHashtags.value.split(' ');
-    if (arrHashtags.length > 0) {
+    if (arrHashtags.length > 1) {
       hashtagsAllValidations(arrHashtags);
     }
   }

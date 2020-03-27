@@ -11,7 +11,6 @@
   let bigPicture = document.querySelector('.big-picture');
   let bigPictureImg = bigPicture.querySelector('.big-picture__img img');
   let bigPictureLikes = bigPicture.querySelector('.likes-count');
-  let bigPictureComment = bigPicture.querySelector('.comments-count');
   let bigPictureCaption = bigPicture.querySelector('.social__caption');
   let bigPictureSocialComments = bigPicture.querySelector('.social__comments');
   let commentsFragment = document.createDocumentFragment();
@@ -23,7 +22,6 @@
   function returnBigImg(item) {
     bigPictureImg.setAttribute('src', item.url);
     bigPictureLikes.textContent = item.likes;
-    bigPictureComment.textContent = item.comments.length;
     bigPictureCaption.textContent = item.description;
   }
 
@@ -80,10 +78,9 @@
       }
     });
 
-
     let count = 0;
     function showNewComments() {
-      let shownComments = item.comments.slice(count, count + numberDisplayedComments);
+      let shownComments = item.comments.slice(0, count + numberDisplayedComments);
       returnCommentsInBigImg(shownComments);
 
       if (item.comments.length > count + numberDisplayedComments) {

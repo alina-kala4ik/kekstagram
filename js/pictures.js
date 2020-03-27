@@ -3,6 +3,7 @@
 (function () {
 
   const numberDisplayedComments = 5;
+  const sizePicturePreview = 35;
 
   let pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   let picturesFragment = document.createDocumentFragment();
@@ -36,8 +37,8 @@
       let img = document.createElement('img');
       img.setAttribute('src', element.avatar);
       img.classList.add('social__picture');
-      img.setAttribute('width', '35');
-      img.setAttribute('height', '35');
+      img.setAttribute('width', sizePicturePreview);
+      img.setAttribute('height', sizePicturePreview);
       img.setAttribute('alt', element.name);
       comment.appendChild(img);
 
@@ -118,7 +119,7 @@
     picturesWrapper.appendChild(picturesFragment);
   }
 
-  window.picture = {
+  window.pictures = {
     return: returnPictures
   };
 

@@ -16,7 +16,7 @@
 
   function copyData(backendDate) {
     arrayPicture = backendDate;
-    window.picture.return(arrayPicture);
+    window.pictures.return(arrayPicture);
     showFilters(arrayPicture);
   }
 
@@ -47,7 +47,7 @@
         filteredArray = copyArray;
         break;
     }
-    setTimeout(window.picture.return, DEBOUNCE_INTERVAL, filteredArray);
+    setTimeout(window.pictures.return, DEBOUNCE_INTERVAL, filteredArray);
   }
 
 

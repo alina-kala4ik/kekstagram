@@ -10,7 +10,6 @@
   let editor = document.querySelector('.img-upload__overlay');
   let photo = editor.querySelector('.img-upload__preview img');
   let buttonCloseEditor = editor.querySelector('#upload-cancel');
-  let controlSize = editor.querySelectorAll('.scale__control');
   let controlSmaller = editor.querySelector('.scale__control--smaller');
   let controlBigger = editor.querySelector('.scale__control--bigger');
   let controlValue = editor.querySelector('.scale__control--value');
@@ -151,9 +150,8 @@
 
       buttonCloseEditor.removeEventListener('click', closeEditor);
       document.body.removeEventListener('keydown', bodyKeydownCloseEditorHandler);
-      controlSize.forEach(item => {
-        item.removeEventListener('click', imageResizeHandler);
-      });
+      controlBigger.removeEventListener('click', imageBiggerHandler);
+      controlSmaller.removeEventListener('click', imageSmallerHandler);
 
       buttonsEffects.forEach(item => {
         item.removeEventListener('click', filterApplication);
@@ -168,17 +166,30 @@
     }
   }
 
-  function imageResizeHandler(evt) {
+
+  function imageSmallerHandler() {
     let valueNow = parseInt(controlValue.getAttribute('value'), 10);
-    if ((evt.target === controlSmaller && valueNow <= stepResizePhoto) || (evt.target === controlBigger && valueNow >= 100)) {
+    if (valueNow <= stepResizePhoto) {
       return false;
     } else {
-      let newValue = (evt.target === controlSmaller) ? (valueNow - stepResizePhoto) : (valueNow + stepResizePhoto);
-      controlValue.setAttribute('value', (newValue + '%'));
-      photo.style.transform = `scale(${newValue / 100})`;
+      controlValue.setAttribute('value', ((valueNow - stepResizePhoto) + '%'));
+      photo.style.transform = `scale(${(valueNow - stepResizePhoto) / 100})`;
     }
     return true;
   }
+
+
+  function imageBiggerHandler() {
+    let valueNow = parseInt(controlValue.getAttribute('value'), 10);
+    if (valueNow >= 100) {
+      return false;
+    } else {
+      controlValue.setAttribute('value', ((valueNow + stepResizePhoto) + '%'));
+      photo.style.transform = `scale(${(valueNow + stepResizePhoto) / 100})`;
+    }
+    return true;
+  }
+
 
   function openEditor() {
     effectLevelWrapper.style.display = 'none';
@@ -189,9 +200,8 @@
     buttonCloseEditor.addEventListener('click', closeEditor);
     document.body.addEventListener('keydown', bodyKeydownCloseEditorHandler);
 
-    controlSize.forEach(item => {
-      item.addEventListener('click', imageResizeHandler);
-    });
+    controlBigger.addEventListener('click', imageBiggerHandler);
+    controlSmaller.addEventListener('click', imageSmallerHandler);
 
     buttonsEffects.forEach(item => {
       item.addEventListener('click', filterApplication);

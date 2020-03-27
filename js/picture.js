@@ -17,6 +17,7 @@
   let commentsFragment = document.createDocumentFragment();
   let buttonClose = bigPicture.querySelector('.big-picture__cancel');
   let commentsLoader = bigPicture.querySelector('.comments-loader');
+  let inputComment = bigPicture.querySelector('.social__footer-text');
 
 
   function returnBigImg(item) {
@@ -57,6 +58,7 @@
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
     bigPictureImg.setAttribute('src', '');
+    inputComment.value = '';
   }
 
 

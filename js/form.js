@@ -105,12 +105,13 @@
 
   function textHashtagsInputHandler() {
     textHashtags.style.border = 'none';
+    textHashtags.setCustomValidity('');
   }
 
 
   function buttonSubmitHandler() {
-    arrHashtags = textHashtags.value.split(' ');
-    if (arrHashtags.length > 1) {
+    if (textHashtags.value.length > 0) {
+      arrHashtags = textHashtags.value.split(' ');
       hashtagsAllValidations(arrHashtags);
     }
   }
